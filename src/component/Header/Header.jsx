@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/Style.css";
+import HeaderLogo from '../../assets/r_logo.png';
 const Header = () => {
     return (
         <div>
@@ -9,7 +10,7 @@ const Header = () => {
                         <img
                             alt="rounded-logo"
                             className="round-logo"
-                            src="../assets/r_logo.png"
+                            src={HeaderLogo}
                         />
                     </div>
                     <div className="heading-text">

@@ -1,6 +1,29 @@
 import React from "react";
-
+import logo from '../../assets/logo.png';
+import login from '../../assets/login.png';
+import eye from '../../assets/eye.png';
+import eye_c from '../../assets/eye_c.png';
 const Login = () => {
+    // Default value set
+    const [values, setValues] = React.useState({
+        password: "",
+        showPassword: false
+    });
+    // On Eye icon Click to set value
+    const handleClickShowPassword = () => {
+        setValues({
+            values,
+            showPassword: !values.showPassword,
+        });
+    };
+    // On click value change of password
+    const handlePasswordChange = (prop) => (event) => {
+        setValues({
+            values,
+            [prop]: event.target.value,
+        })
+    }
+
     return (
         <div>
             <div class="blue">
@@ -11,14 +34,14 @@ const Login = () => {
                     <div className="login-logo">
                         <img
                             alt="Logo"
-                            src="../assets/logo.png"
+                            src={logo}
                         />
                     </div>
                     <div className="login-container">
                         <div className="login-human">
                             <img
                                 alt=""
-                                src="../assets/login.png"
+                                src={login}
                             />
                         </div>
                         <form action="#">
@@ -37,11 +60,14 @@ const Login = () => {
                                 <input
                                     className="input-box"
                                     placeholder="Password"
-                                    type="password"
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    onChange={handlePasswordChange('password')}
+                                    value={values.password}
                                 />
                                 <img
                                     alt="eye-icon"
-                                    src="../assets/eye.png"
+                                    src={values.showPassword ? eye : eye_c}
+                                    onClick={handleClickShowPassword}
                                 />
                             </div>
                             <br />
