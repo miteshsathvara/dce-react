@@ -5,24 +5,21 @@ const Header = () => {
     return (
         <div>
             <header className="header">
-                <div className="orange">
-                    <div className="round-logo-container">
-                        <img
+  <div className="orange">
+    <div className="round-logo-container">
+    <img
                             alt="rounded-logo"
                             className="round-logo"
                             src={HeaderLogo}
                         />
-                    </div>
-                    <div className="heading-text">
-                        <h1>
-                            Dynamic Computer Education
-                        </h1>
-                        <h3>
-                            On-line Examination System
-                        </h3>
-                    </div>
-                </div>
-            </header>
+    </div>
+    <div className="heading-text">
+      <h1>Dynamic Computer Education</h1>
+      <h3>On-line Examination System</h3>
+    </div>
+  </div>
+</header>
+
             {/* <main>
                 <div className="login-tile-container">
                     <div className="login-logo">

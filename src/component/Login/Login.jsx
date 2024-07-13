@@ -27,7 +27,7 @@ const Login = () => {
     return (
         <div>
             <div class="blue">
-                Login to Start Examination
+            <div className="login-title">Login to Start Examination</div>
             </div>
             <main>
                 <div className="login-tile-container">
@@ -44,7 +44,7 @@ const Login = () => {
                                 src={login}
                             />
                         </div>
-                        <form action="#">
+                        <form className="login-form" action="#">
                             <label htmlFor="username">
                                 USER NAME
                             </label>
@@ -81,6 +81,8 @@ const Login = () => {
                 </div>
             </main>
         </div>
+
+        
     );
 }
 export default Login;
