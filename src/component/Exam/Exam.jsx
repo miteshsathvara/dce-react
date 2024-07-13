@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import HeaderLogo from '../../assets/r_logo.png';
 import HumanStart from '../../assets/human-start.png';
-
 import { useNavigate } from "react-router-dom";
 import api from '../Dashboard/api';
 

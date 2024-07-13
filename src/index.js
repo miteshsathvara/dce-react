@@ -9,11 +9,13 @@ import Dashboard from "./component/Dashboard/Dashboard";
 import Header from "./component/Header/Header";
 import Footer from "./component/Footer/Footer";
 import Exam from "./component/Exam/Exam";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    //<Provider>
     <BrowserRouter>
+    <ToastContainer theme='dark'/>
     <Header />
     <Routes>
       <Route path='/' element={<Login/>}></Route>

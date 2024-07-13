@@ -3,70 +3,55 @@ import logo from '../../assets/logo.png';
 import login from '../../assets/login.png';
 import eye from '../../assets/eye.png';
 import eye_c from '../../assets/eye_c.png';
-import axios from "axios";
 import "../../css/Style.css";
-import HeaderLogo from '../../assets/r_logo.png';
 import { useNavigate } from "react-router-dom";
 import api from '../Dashboard/api';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
     //
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState("");
-    const [Islogin, setLogin] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
-    // Default value set
-    // const [values, setValues] = React.useState({
-    //     password: "",
-    //     showPassword: false
-    // });
-    // On Eye icon Click to set value
-    // const handleClickShowPassword = () => {
-    //     setValues({
-    //         values,
-    //         showPassword: !values.showPassword,
-    //     });
-    // };
-    // // On click value change of password
-    // const handlePasswordChange = (prop) => (event) => {
-    //     setValues({
-    //         values,
-    //         [prop]: event.target.value,
-    //     })
-    // }
-    const configuration = {
-        method: "post",
-        url: "http://localhost:3000/login",
-        data: {
-            username,
-            password,
-        },
-    };
-    // const handleClickShowPassword = () => {
-    //     setValues({
-    //         values,
-    //         showPassword: !values.showPassword,
-    //     });
-    // };
+    const [type, setType] = useState('password');
+    const [icon, setIcon] = useState(eye_c);
     const navigate = useNavigate();
-
+    // Show/Hide Password Toggle
+    const handleToggle = () => {
+        if (type === 'password') {
+            setIcon(eye);
+            setType('text')
+        } else {
+            setIcon(eye_c)
+            setType('password')
+        }
+    }
+    // Login Submit Event Handle
     const handleSubmit = async (e) => {
+
         // prevent the form from refreshing the whole page
         e.preventDefault();
-        const response = await api.post('/login', {
+        await api.post('/login', {
             username,
             password,
         }).then((result) => {
-
+            console.log(result.data.status);
             if (result.data.status === "Success") {
-                setLogin(true);
                 localStorage.setItem("token", result.data.token);
+                toast.success(result.data.message, {
+                    autoClose: 2000,
+                });
                 navigate('/Dashboard');
-            } else {
-                setLogin(false);
-                alert(result.data.message);
             }
+        }).catch((error) => {
 
+            if (error.response.data.status === "Failed") {
+                toast.error(error.response.data.message, {
+                    autoClose: 2000,
+                });
+            }
+            console.log(error);
         })
-            .catch((error) => { console.log(error); })
     }
     return (
         <div>
@@ -107,17 +92,15 @@ const Login = () => {
                                 <input
                                     className="input-box"
                                     placeholder="Password"
-                                    type="password"
-                                    // type={values.showPassword ? 'text' : 'password'}
-                                    // onChange={handlePasswordChange('password')}
+                                    type={type}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <img
                                     alt="eye-icon"
-                                    src={eye_c}
+                                    src={icon}
+                                    onClick={handleToggle}
                                 // src={values.showPassword ? eye : eye_c}
-                                // onClick={handleClickShowPassword}
                                 />
                             </div>
                             <br />
@@ -131,7 +114,6 @@ const Login = () => {
                 </div>
             </main>
         </div>
-
     );
 }
 export default Login;

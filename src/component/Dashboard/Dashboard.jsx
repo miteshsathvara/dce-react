@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import HeaderLogo from '../../assets/r_logo.png';
 import HumanStart from '../../assets/human-start.png';
 import { useNavigate } from "react-router-dom";
 import api from './api';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -12,6 +12,9 @@ const Dashboard = () => {
     // prevent the form from refreshing the whole page
     e.preventDefault();
     localStorage.removeItem('token');
+    toast.success("Logout Successfully.", {
+      autoClose: 1500,
+    });
     navigate('/');
   }
   console.log('here');
