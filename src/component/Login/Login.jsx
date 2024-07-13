@@ -1,33 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from '../../assets/logo.png';
 import login from '../../assets/login.png';
 import eye from '../../assets/eye.png';
 import eye_c from '../../assets/eye_c.png';
+import axios from "axios";
+import "../../css/Style.css";
+import HeaderLogo from '../../assets/r_logo.png';
+import { useNavigate } from "react-router-dom";
+import api from '../Dashboard/api';
 const Login = () => {
+    //
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState("");
+    const [Islogin, setLogin] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
     // Default value set
-    const [values, setValues] = React.useState({
-        password: "",
-        showPassword: false
-    });
+    // const [values, setValues] = React.useState({
+    //     password: "",
+    //     showPassword: false
+    // });
     // On Eye icon Click to set value
-    const handleClickShowPassword = () => {
-        setValues({
-            values,
-            showPassword: !values.showPassword,
-        });
+    // const handleClickShowPassword = () => {
+    //     setValues({
+    //         values,
+    //         showPassword: !values.showPassword,
+    //     });
+    // };
+    // // On click value change of password
+    // const handlePasswordChange = (prop) => (event) => {
+    //     setValues({
+    //         values,
+    //         [prop]: event.target.value,
+    //     })
+    // }
+    const configuration = {
+        method: "post",
+        url: "http://localhost:3000/login",
+        data: {
+            username,
+            password,
+        },
     };
-    // On click value change of password
-    const handlePasswordChange = (prop) => (event) => {
-        setValues({
-            values,
-            [prop]: event.target.value,
-        })
-    }
+    // const handleClickShowPassword = () => {
+    //     setValues({
+    //         values,
+    //         showPassword: !values.showPassword,
+    //     });
+    // };
+    const navigate = useNavigate();
 
+    const handleSubmit = async (e) => {
+        // prevent the form from refreshing the whole page
+        e.preventDefault();
+        const response = await api.post('/login', {
+            username,
+            password,
+        }).then((result) => {
+
+            if (result.data.status === "Success") {
+                setLogin(true);
+                localStorage.setItem("token", result.data.token);
+                navigate('/Dashboard');
+            } else {
+                setLogin(false);
+                alert(result.data.message);
+            }
+
+        })
+            .catch((error) => { console.log(error); })
+    }
     return (
         <div>
-            <div class="blue">
-            <div className="login-title">Login to Start Examination</div>
+            <div className="blue">
+                <div className="login-title">Login to Start Examination</div>
             </div>
             <main>
                 <div className="login-tile-container">
@@ -50,8 +94,11 @@ const Login = () => {
                             </label>
                             <input
                                 className="input-box"
-                                placeholder="User Name"
+                                placeholder="Enter UserName"
                                 type="text"
+                                name="mobile_number"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                             <label htmlFor="password">
                                 PASSWORD
@@ -60,19 +107,22 @@ const Login = () => {
                                 <input
                                     className="input-box"
                                     placeholder="Password"
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    onChange={handlePasswordChange('password')}
-                                    value={values.password}
+                                    type="password"
+                                    // type={values.showPassword ? 'text' : 'password'}
+                                    // onChange={handlePasswordChange('password')}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <img
                                     alt="eye-icon"
-                                    src={values.showPassword ? eye : eye_c}
-                                    onClick={handleClickShowPassword}
+                                    src={eye_c}
+                                // src={values.showPassword ? eye : eye_c}
+                                // onClick={handleClickShowPassword}
                                 />
                             </div>
                             <br />
                             <div className="button">
-                                <button>
+                                <button onClick={(e) => handleSubmit(e)}>
                                     SUBMIT
                                 </button>
                             </div>
@@ -82,7 +132,6 @@ const Login = () => {
             </main>
         </div>
 
-        
     );
 }
 export default Login;
