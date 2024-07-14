@@ -13,13 +13,31 @@ const Exam = () => {
     localStorage.removeItem('token');
     navigate('/');
   }
-  console.log('here');
+  const type_id = localStorage.getItem('type_id');
+
+  const [questionData, setquestionData] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await api.get('/get_questions/' + type_id);
+        console.log('response', response);
+        setquestionData(response.data.data);
+      } catch (error) {
+        // Handle error or redirect to login
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await api.get('/getUserExamDetail');
-        console.log('response', response);
         setApiData(response.data.data);
       } catch (error) {
         // Handle error or redirect to login
@@ -28,7 +46,7 @@ const Exam = () => {
 
     fetchProfile();
   }, []);
-  console.log('apidata', apiData);
+
   const getCurrentDate = () => {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -44,6 +62,32 @@ const Exam = () => {
     e.preventDefault();
     navigate('/');
   }
+  //console.log("65", questionData);
+  const handleNextQuestion = () => {
+    //console.log('currentQuestionIndex', currentQuestionIndex);
+    //console.log('length', questionData.length - 1);
+    if (currentQuestionIndex < questionData.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      alert('You have reached the end of the quiz.');
+      // Optionally, handle end of quiz (e.g., show results)
+    }
+  };
+  const handleBackQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    } else {
+      alert('No Any Questions.');
+      // Optionally, handle end of quiz (e.g., show results)
+    }
+  };
+
+  const handleRedirectQuestion = (q) => {
+    setCurrentQuestionIndex(q.order_no - 1);
+  }
+
+  const currentQuestion = questionData[currentQuestionIndex];
+
   return (
     <div>
       {/*  Start Main Contents */}
@@ -62,25 +106,28 @@ const Exam = () => {
       <div className="container">
         <div className="question-container">
           <form action="#">
-            <p>
-              <span>•</span>What is Microsoft Excel Extension ?
-            </p>
-            <input type="radio" id=".docx" name="Extension" defaultValue=".docx" />
-            <label htmlFor=".docx">.docx</label>
-            <br />
-            <input type="radio" id=".xlsx" name="Extension" defaultValue=".xlsx" />
-            <label htmlFor=".xlsx">.xlsx</label>
-            <br />
-            <input type="radio" id=".pptx" name="Extension" defaultValue=".pptx" />
-            <label htmlFor=".pptx">.pptx</label>
-            <br />
-            <input type="radio" id=".pdf" name="Extension" defaultValue=".pdf" />
-            <label htmlFor=".pdf">.pdf</label>
+            <p><span>{currentQuestion?.order_no} .</span>{currentQuestion?.question}</p>
+            {currentQuestion?.answer?.map(option => (
+              <div key={option}>
+                <label>
+                  <input
+                    type="radio"
+                    // name={`question-${currentQuestion.i}`}
+                    value={option?.options}
+                  // checked={selectedAnswers[currentQuestion.id] === option.id}
+                  // onChange={() => handleAnswerChange(currentQuestion.id, option.id)}
+                  />
+                  {option?.options}
+                </label>
+              </div>
+            ))}
             <div className="question-button">
-              <button style={{ backgroundColor: "rgb(0, 132, 255)" }}>
+              <button onClick={handleBackQuestion} >Back</button>
+
+              <button onClick={handleNextQuestion} style={{ backgroundColor: "rgb(0, 132, 255)" }}>
                 SUBMIT &amp; NEXT
               </button>
-              <button>SKIP FOR REVIEW</button>
+
             </div>
           </form>
         </div>
@@ -88,74 +135,22 @@ const Exam = () => {
           <div className="question-layout">
             <div className="title">Question-Layout</div>
             <div className="questions">
-              <div style={{ backgroundColor: "rgb(0, 132, 255)", color: "white" }}>
-                1
-              </div>
-              <div style={{ backgroundColor: "rgb(0, 132, 255)", color: "white" }}>
-                2
-              </div>
-              <div style={{ backgroundColor: "orangered", color: "white" }}>3</div>
-              <div style={{ backgroundColor: "rgb(0, 132, 255)", color: "white" }}>
-                4
-              </div>
-              <div style={{ backgroundColor: "rgb(0, 132, 255)", color: "white" }}>
-                5
-              </div>
-              <div style={{ backgroundColor: "orangered", color: "white" }}>6</div>
-              <div style={{ backgroundColor: "rgb(0, 132, 255)", color: "white" }}>
-                7
-              </div>
-              <div>8</div>
-              <div>9</div>
-              <div>10</div>
-              <div>11</div>
-              <div>12</div>
-              <div>13</div>
-              <div>14</div>
-              <div>15</div>
-              <div>16</div>
-              <div>17</div>
-              <div>18</div>
-              <div>19</div>
-              <div>20</div>
-              <div>21</div>
-              <div>22</div>
-              <div>23</div>
-              <div>24</div>
-              <div>25</div>
-              <div>26</div>
-              <div>27</div>
-              <div>28</div>
-              <div>29</div>
-              <div>30</div>
-              <div>31</div>
-              <div>32</div>
-              <div>33</div>
-              <div>34</div>
-              <div>35</div>
-              <div>36</div>
-              <div>37</div>
-              <div>38</div>
-              <div>39</div>
-              <div>40</div>
-              <div>41</div>
-              <div>42</div>
-              <div>43</div>
-              <div>44</div>
-              <div>45</div>
-              <div>46</div>
-              <div>47</div>
-              <div>48</div>
-              <div>49</div>
-              <div>50</div>
+              {questionData?.map(q => (
+                q.order_no === currentQuestion?.order_no ?
+                  <div style={{ 'background-color': 'orangered', color: 'white' }} onClick={() => handleRedirectQuestion(q)}>
+                    {q.order_no}
+                  </div>
+                  : <div onClick={() => handleRedirectQuestion(q)}>
+                    {q.order_no}
+                  </div>
+              ))}
             </div>
           </div>
           <div className="summery">
             <div className="indication">
+              <div style={{ backgroundColor: "orangered", color: "white" }}></div><p>Current Question</p>
               <div style={{ backgroundColor: "rgb(0, 132, 255)", color: "white" }} />
               <p>Attempted</p>
-              <div style={{ backgroundColor: "orangered", color: "white" }} />
-              <p>Skipped</p>
               <div />
               <p>Not Attempted</p>
             </div>

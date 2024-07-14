@@ -42,8 +42,9 @@ const Dashboard = () => {
   };
   const currentDate = getCurrentDate();
 
-  const startExam = (e) => {
-
+  const startExam = (e,type_id) => {
+    
+    localStorage.setItem("type_id", type_id);
     // prevent the form from refreshing the whole page
     e.preventDefault();
     navigate('/exam');
@@ -90,7 +91,7 @@ const Dashboard = () => {
               </tr>
             </tbody>
           </table>
-          <button onClick={(e) => startExam(e)}>START EXAM</button>
+          <button onClick={(e) => startExam(e,apiData?.exam_type)}>START EXAM</button>
         </div>
       </main>
       {/* End Main Contents */}
