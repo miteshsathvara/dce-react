@@ -17,7 +17,7 @@ const Exam = () => {
     // Clear all localstorage
     Object.keys(localStorage).forEach(key => {
       if (key.startsWith('selectedAnswer-')) {
-        
+
         localStorage.removeItem(key);
       }
     });
@@ -29,31 +29,31 @@ const Exam = () => {
     // redirect to home page
     navigate('/');
   };
-   // Get Username on blue header part
-   const [apiData, setApiData] = useState([]);
-   useEffect(() => {
-     const fetchProfile = async () => {
-       try {
-         const response = await api.get('/getUserExamDetail');
-         setApiData(response.data.data);
-       } catch (error) {
-         // Handle error or redirect to login
-       }
-     };
- 
-     fetchProfile();
-   }, []);
-   // get current date
-   const getCurrentDate = () => {
-     const today = new Date();
-     const dd = String(today.getDate()).padStart(2, '0');
-     const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-     const yyyy = today.getFullYear();
- 
-     return `${dd}/${mm}/${yyyy}`;
-   };
-   const currentDate = getCurrentDate();
- 
+  // Get Username on blue header part
+  const [apiData, setApiData] = useState([]);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await api.get('/getUserExamDetail');
+        setApiData(response.data.data);
+      } catch (error) {
+        // Handle error or redirect to login
+      }
+    };
+
+    fetchProfile();
+  }, []);
+  // get current date
+  const getCurrentDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const yyyy = today.getFullYear();
+
+    return `${dd}/${mm}/${yyyy}`;
+  };
+  const currentDate = getCurrentDate();
+
   // End Header Code
   // Start Question Logic
   // get Type id from localstorage
@@ -79,7 +79,7 @@ const Exam = () => {
           initialAnswers[question.order_no] = answer;
           localStorage.setItem(`selectedAnswer-${question.order_no}`, answer);
           // for shuffled question set index for each question
-          question.index = index + 1; 
+          question.index = index + 1;
         });
         // Api Response set in answers state
         setAnswers(initialAnswers);
@@ -112,7 +112,17 @@ const Exam = () => {
           toast.success(result.data.data, {
             autoClose: 2000,
           });
+          // Update the attempted status of the current question and immediate attempted
+          if (answer) {
+            setquestionData(prevData => {
+              const updatedData = [...prevData];
+              updatedData[currentQuestionIndex].attempted = true;
+              updatedData[currentQuestionIndex].attempted_answer = answer;
+              return updatedData;
+            });
+          }
           setCurrentQuestionIndex(currentQuestionIndex + 1);
+
         }
       }).catch((error) => {
         if (error.response.data.status === "Failed") {
