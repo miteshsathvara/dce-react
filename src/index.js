@@ -6,6 +6,7 @@ import Login from './component/Login/Login';
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dashboard from "./component/Dashboard/Dashboard";
+import Thankyou from "./component/Exam/Thankyou";
 import Header from "./component/Header/Header";
 import Footer from "./component/Footer/Footer";
 import Exam from "./component/Exam/Exam";
@@ -21,6 +22,7 @@ root.render(
       <Route path='/' element={<Login/>}></Route>
       <Route path='/dashboard' element={<Dashboard/>}></Route>
       <Route path='/exam' element={<Exam/>}></Route>
+      <Route path='/thankyou' element={<Thankyou/>}></Route>
     </Routes>
     <Footer />
     </BrowserRouter>

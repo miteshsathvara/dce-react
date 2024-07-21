@@ -11,19 +11,26 @@ const Dashboard = () => {
   const logout = (e) => {
     // prevent the form from refreshing the whole page
     e.preventDefault();
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('selectedAnswer-')) {
+        
+        localStorage.removeItem(key);
+      } 
+    });
     localStorage.removeItem('token');
+    localStorage.removeItem('type_id');
     toast.success("Logout Successfully.", {
       autoClose: 1500,
     });
     navigate('/');
   }
-  console.log('here');
+  
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await api.get('/getUserExamDetail');
-        console.log('response', response);
+        
         setApiData(response.data.data);
       } catch (error) {
         // Handle error or redirect to login
@@ -42,8 +49,8 @@ const Dashboard = () => {
   };
   const currentDate = getCurrentDate();
 
-  const startExam = (e,type_id) => {
-    
+  const startExam = (e, type_id) => {
+
     localStorage.setItem("type_id", type_id);
     // prevent the form from refreshing the whole page
     e.preventDefault();
@@ -91,7 +98,7 @@ const Dashboard = () => {
               </tr>
             </tbody>
           </table>
-          <button onClick={(e) => startExam(e,apiData?.exam_type)}>START EXAM</button>
+          <button onClick={(e) => startExam(e, apiData?.exam_type)}>START EXAM</button>
         </div>
       </main>
       {/* End Main Contents */}
