@@ -237,7 +237,8 @@ main .blue .button {
     width: 25vw;
 }
 
-main .blue .button button {
+main .blue .button button,
+.thankyou .button button {
     width: 8vw;
     padding: .6em;
     border-radius: 3em;
