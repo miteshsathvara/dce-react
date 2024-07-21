@@ -74,7 +74,7 @@ const Dashboard = () => {
             <tbody>
               <tr>
                 <th>Course Name:</th>
-                <td>{apiData?.exam_type}</td>
+                <td>{apiData?.activity?.name}</td>
               </tr>
               <tr>
                 <th>Institute Name:</th>
