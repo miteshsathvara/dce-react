@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Login from './component/Login/Login';
+import Signup from './component/Signup/Signup';
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dashboard from "./component/Dashboard/Dashboard";
@@ -20,6 +21,7 @@ root.render(
     <Header />
     <Routes>
       <Route path='/' element={<Login/>}></Route>
+      <Route path='/signup' element={<Signup/>}></Route>
       <Route path='/dashboard' element={<Dashboard/>}></Route>
       <Route path='/exam' element={<Exam/>}></Route>
       <Route path='/thankyou' element={<Thankyou/>}></Route>

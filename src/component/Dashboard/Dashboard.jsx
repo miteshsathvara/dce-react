@@ -4,27 +4,11 @@ import { useNavigate } from "react-router-dom";
 import api from './api';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  NavBar  from "../Header/Navbar";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const logout = (e) => {
-    // prevent the form from refreshing the whole page
-    e.preventDefault();
-    Object.keys(localStorage).forEach(key => {
-      if (key.startsWith('selectedAnswer-')) {
-        
-        localStorage.removeItem(key);
-      } 
-    });
-    localStorage.removeItem('token');
-    localStorage.removeItem('type_id');
-    toast.success("Logout Successfully.", {
-      autoClose: 1500,
-    });
-    navigate('/');
-  }
-  
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
     const fetchProfile = async () => {
@@ -59,16 +43,7 @@ const Dashboard = () => {
   return (
     <div>
       <main>
-        <div className="blue">
-          <div className="human-pic">
-            <img src={HumanStart} alt="Human" />
-          </div>
-          <div className="name-col">NAME: {apiData?.first_name} {apiData?.last_name} </div>
-          <div className="date-col">DATE: {currentDate}</div>
-          <div className="button">
-            <button onClick={(e) => logout(e)}>LOG OUT</button>
-          </div>
-        </div>
+        <NavBar/>
         <div className="table-container">
           <table>
             <tbody>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from '../Dashboard/api';
 import { toast } from "react-toastify";
 import ConfirmDialog from './ConfirmDialog';
+import  NavBar  from "../Header/Navbar";
 
 
 const Exam = () => {
@@ -11,49 +12,6 @@ const Exam = () => {
   // Start Header code
   // Use for navigation
   const navigate = useNavigate();
-  // Logout Function
-  const logout = (e) => {
-    e.preventDefault();
-    // Clear all localstorage
-    Object.keys(localStorage).forEach(key => {
-      if (key.startsWith('selectedAnswer-')) {
-
-        localStorage.removeItem(key);
-      }
-    });
-    localStorage.removeItem('token');
-    localStorage.removeItem('type_id');
-    toast.success("Logout Successfully.", {
-      autoClose: 1500,
-    });
-    // redirect to home page
-    navigate('/');
-  };
-  // Get Username on blue header part
-  const [apiData, setApiData] = useState([]);
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await api.get('/getUserExamDetail');
-        setApiData(response.data.data);
-      } catch (error) {
-        // Handle error or redirect to login
-      }
-    };
-
-    fetchProfile();
-  }, []);
-  // get current date
-  const getCurrentDate = () => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    const yyyy = today.getFullYear();
-
-    return `${dd}/${mm}/${yyyy}`;
-  };
-  const currentDate = getCurrentDate();
-
   // End Header Code
   // Start Question Logic
   // get Type id from localstorage
@@ -168,16 +126,7 @@ const Exam = () => {
   return (
     <div>
       <main>
-        <div className="blue">
-          <div className="human-pic">
-            <img src={HumanStart} alt="Human" />
-          </div>
-          <div className="name-col">NAME: {apiData?.first_name} {apiData?.last_name} </div>
-          <div className="date-col">DATE: {currentDate}</div>
-          <div className="button">
-            <button onClick={(e) => logout(e)}>LOG OUT</button>
-          </div>
-        </div>
+        <NavBar/>
       </main>
       <div className="container">
         <div className="question-container">

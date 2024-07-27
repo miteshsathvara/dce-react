@@ -53,6 +53,9 @@ const Login = () => {
             console.log(error);
         })
     }
+    const registration = async (e) => {
+        navigate('/signup');
+    }
     return (
         <div>
             <div className="blue">
@@ -108,8 +111,12 @@ const Login = () => {
                                 <button onClick={(e) => handleSubmit(e)}>
                                     SUBMIT
                                 </button>
+                                
                             </div>
                         </form>
+                        <button style={{'margin-top':'5px',backgroundColor:'rgb(0, 132, 255)'}} onClick={(e) => registration(e)}>
+                                Create New Account
+                        </button>
                     </div>
                 </div>
             </main>
