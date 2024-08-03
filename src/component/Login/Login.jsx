@@ -114,9 +114,11 @@ const Login = () => {
                                 
                             </div>
                         </form>
-                        <button style={{'margin-top':'5px',backgroundColor:'rgb(0, 132, 255)'}} onClick={(e) => registration(e)}>
-                                Create New Account
+                        <div className="title">
+                        <button onClick={(e) => registration(e)}>
+                                Signup
                         </button>
+                        </div>                     
                     </div>
                 </div>
             </main>

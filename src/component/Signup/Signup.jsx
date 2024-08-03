@@ -7,17 +7,42 @@ import { useNavigate } from "react-router-dom";
 import api from '../Dashboard/api';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import eye from '../../assets/eye.png';
+import eye_c from '../../assets/eye_c.png';
 const Signup = () => {
     const [examTypes, setExamTypes] = useState([]);
+    const [password, setPassword] = useState("");
+    const [cpassword, setConfirmPassword] = useState("");
+    
+    const [type, setType] = useState('password');
+    const [icon, setIcon] = useState(eye_c);
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
         middle_name: '',
         mobile_number: '',
-        password: '',
         banch_time: '',
         exam_type: ''
     });
+    // Show/Hide Password Toggle
+    const handleToggle = () => {
+        if (type === 'password') {
+            setIcon(eye);
+            setType('text')
+        } else {
+            setIcon(eye_c)
+            setType('password')
+        }
+    }
+    const handleCPasswordToggle = () => {
+        if (type === 'password') {
+            setIcon(eye);
+            setType('text')
+        } else {
+            setIcon(eye_c)
+            setType('password')
+        }
+    }
 
     useEffect(() => {
         const fetchExamType = async () => {
@@ -43,7 +68,10 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        e.preventDefault();
+        formData.password = password;
+        if (password !== cpassword) {
+            alert('Passwords do not match!');
+        }
         await api.post('/register', {
             formData
         }).then((result) => {
@@ -83,130 +111,112 @@ const Signup = () => {
                         />
                     </div>
                     <div className="login-container">
-                        <div className="login-human">
-                            <img
-                                alt=""
-                                src={login}
-                            />
+                        <div class="registration">
+                            <form className="registration-form">
+                                <div className="div-lable">
+                                    <label htmlFor="firstname">Name</label>
+                                    <label htmlFor="middlename">Father Name</label>
+                                    <label htmlFor="lastname">Surname</label>
+                                    <label htmlFor="mobile">Mobile No.</label>
+                                    <label htmlFor="password">Password</label>
+                                    <label htmlFor="password">Re-Enter P.W.</label>
+                                    <label htmlFor="course">Course</label>
+                                    <label htmlFor="batchtime">Batch Time</label>
+                                </div>
+                                <div className="div-column">
+                                    <div>:</div>
+                                    <div>:</div>
+                                    <div>:</div>
+                                    <div>:</div>
+                                    <div>:</div>
+                                    <div>:</div>
+                                    <div>:</div>
+                                    <div>:</div>
+                                </div>
+                                <div className="div-input">
+                                    <input className="input-box" name="first_name" type="text" placeholder="First Name" value={formData.first_name}
+                                        onChange={handleChange} required />
+                                    <input className="input-box" name="middle_name" type="text" placeholder="Father Name" value={formData.middle_name}
+                                        onChange={handleChange}
+                                        required />
+                                    <input className="input-box" name="last_name" type="text" placeholder="Surname" value={formData.last_name}
+                                        onChange={handleChange}
+                                        required />
+                                    <input className="input-box" type="number" name="mobile_number" placeholder="Mobile" value={formData.mobile_number}
+                                        onChange={handleChange}
+                                        required />
+                                    <div className="password-container">
+                                        <input className="input-box" name="password" type={type} placeholder="Create Password" value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required />
+                                        <img
+                                            alt="eye-icon"
+                                            src={icon}
+                                            onClick={handleToggle}
+                                        // src={values.showPassword ? eye : eye_c}
+                                        />
+                                    </div>
+                                    <div className="password-container">
+                                        <input className="input-box" type={type} placeholder="Re-Enter Password" value={cpassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)} />
+                                        <img
+                                            alt="eye-icon"
+                                            src={icon}
+                                            onClick={handleCPasswordToggle}
+                                        />
+                                    </div>
+                                    <select
+                                        id="exam_type"
+                                        name="exam_type"
+                                        value={formData.exam_type}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select Exam Type</option>
+                                        {examTypes.map((exam_type) => (
+                                            <option key={exam_type.id} value={exam_type.id}>
+                                                {exam_type.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <select
+                                        type="text"
+                                        id="banch_time"
+                                        name="banch_time"
+                                        value={formData.banch_time}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select Banch Time</option>
+                                        <option value="7 AM - 8 AM">7 AM - 8 AM</option>
+                                        <option value="8 AM - 9 AM">8 AM - 9 AM</option>
+                                        <option value="9 AM - 10 AM">9 AM - 10 AM</option>
+                                        <option value="10 AM - 11 AM">10 AM - 11 AM</option>
+                                        <option value="11 AM - 12 PM">11 AM - 12 PM</option>
+                                        <option value="12 PM - 1 PM">12 PM - 1 PM</option>
+                                        <option value="1 PM - 2 PM">1 PM - 2 PM</option>
+                                        <option value="2 PM - 3 PM">2 PM - 3 PM</option>
+                                        <option value="3 PM - 4 PM">3 PM - 4 PM</option>
+                                        <option value="4 PM - 5 PM">4 PM - 5 PM</option>
+                                        <option value="5 PM - 6 PM">5 PM - 6 PM</option>
+                                        <option value="6 PM - 7 PM">6 PM - 7 PM</option>
+                                        <option value="7 PM - 8 PM">7 PM - 8 PM</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <div className="button">
+                                <button type="button" onClick={(e) => handleSubmit(e)}>CREATE</button>
+                                <button>RESET</button>
+                            </div>
                         </div>
-
-                        <form className="login-form" onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label htmlFor="username">
-                                    First Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="first_name"
-                                    name="first_name"
-                                    value={formData.first_name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="first_name">Middle Name</label>
-                                <input
-                                    type="text"
-                                    id="middle_name"
-                                    name="middle_name"
-                                    value={formData.middle_name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-
-                            <div className="form-group">
-                                <label htmlFor="last_name">Last Name</label>
-                                <input
-                                    type="text"
-                                    id="last_name"
-                                    name="last_name"
-                                    value={formData.last_name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="mobile_number">Mobile Number</label>
-                                <input
-                                    type="tel"
-                                    id="mobile_number"
-                                    name="mobile_number"
-                                    value={formData.mobile_number}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="banch_time">Batch Time</label>
-                                <select
-                                    type="text"
-                                    id="banch_time"
-                                    name="banch_time"
-                                    value={formData.banch_time}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select Banch Time</option>
-                                    <option value="7 AM - 8 AM">7 AM - 8 AM</option>
-                                    <option value="8 AM - 9 AM">8 AM - 9 AM</option>
-                                    <option value="9 AM - 10 AM">9 AM - 10 AM</option>
-                                    <option value="10 AM - 11 AM">10 AM - 11 AM</option>
-                                    <option value="11 AM - 12 PM">11 AM - 12 PM</option>
-                                    <option value="12 PM - 1 PM">12 PM - 1 PM</option>
-                                    <option value="1 PM - 2 PM">1 PM - 2 PM</option>
-                                    <option value="2 PM - 3 PM">2 PM - 3 PM</option>
-                                    <option value="3 PM - 4 PM">3 PM - 4 PM</option>
-                                    <option value="4 PM - 5 PM">4 PM - 5 PM</option>
-                                    <option value="5 PM - 6 PM">5 PM - 6 PM</option>
-                                    <option value="6 PM - 7 PM">6 PM - 7 PM</option>
-                                    <option value="7 PM - 8 PM">7 PM - 8 PM</option>
-                                </select>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="exam_type">Exam Type</label>
-                                <select
-                                    id="exam_type"
-                                    name="exam_type"
-                                    value={formData.exam_type}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select Exam Type</option>
-                                    {examTypes.map((exam_type) => (
-                                        <option key={exam_type.id} value={exam_type.id}>
-                                            {exam_type.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <button type="submit">Submit</button>
-                        </form>
-                        <button style={{ 'margin-top': '5px', backgroundColor: 'rgb(0, 132, 255)' }} onClick={(e) => registration(e)}>
+                        {/* <button type="submit">Submit</button> */}
+                        {/* <button style={{ 'margin-top': '5px', backgroundColor: 'rgb(0, 132, 255)' }} onClick={(e) => registration(e)}>
                             Login
-                        </button>
+                        </button> */}
                     </div>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }
 export default Signup;

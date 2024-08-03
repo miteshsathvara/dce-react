@@ -1,6 +1,31 @@
 body {
     margin: 0;
     padding-inline-start: 0;
+    
+}
+
+.loader-body {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: -10vh;
+        
+}
+ 
+.loader {
+    position: relative;
+    top: 50vh;
+    border: 10px solid orangered;
+    border-top: 10px solid rgb(0, 132, 255);
+    border-bottom: 10px solid rgb(0, 132, 255);
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
 }
 
 header {
@@ -78,11 +103,25 @@ header .heading-text h3 {
     margin-bottom: .5em;
 }
 
-.login-logo, .login-container {
+.login-logo {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 35vw;
+    height: 60vh;
+    border: 1px;
+    border-color: rgb(209, 209, 209);
+    border-style: solid;
+    border-radius: 2em;
+    margin-right: 1em;
+
+}
+
+
+ .login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     width: 35vw;
     height: 60vh;
     border: 1px;
@@ -100,6 +139,8 @@ header .heading-text h3 {
 .login-human {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
     
   
 }
@@ -117,36 +158,40 @@ display: flex;
 flex-direction: column;
 padding: 0px 2em 0px 2em;
 /* margin-left: 2em; */
-width: 80%;
+width: 90%;
+height: 50%;
+justify-content: space-around;
 
 }
 
 .login-form label {
-    padding-top: 1em;
-    padding-bottom: 0.5em;
-    font-size: 1em;
-    font-weight: bolder;
+    font-size: 1.5vw;
+    padding-top: .5vw;
+    font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     color: orangered;
 }
 .input-box {
+    font-size: 1.5vw;
     width: 90%;
-    height: 7vh;
-    border-radius: 20px;
+    padding: .5vw;
+    border-radius: 50px;
     background-color: none;
     border-style: none;
     background-color: rgb(218, 237, 255);
     padding-left: 2vw;
+    
 
 }
 .password-container {
     display: flex;
     align-items: center;
+
 }
 
 .password-container img {
-    height: 1em;
-    margin-left: -2em;
+    height: 2em;
+    margin-left: -5em;
     opacity: .3;
 }
 .password-container img:hover {
@@ -156,7 +201,6 @@ width: 80%;
 
 .input-box::placeholder {
     font-weight: lighter;
-    font-size: 1.2em;
     opacity: .5;
     text-align: left;
 
@@ -170,15 +214,15 @@ width: 80%;
 .login-container .button {
     width: 100%;
     display: flex;
-    justify-content: center;
-    margin-top: 2vh;
+    justify-content: space-around;
+    margin-top: 1vh;
     
 }
 
 .login-container button {
     padding: .7em;
     width: 50%;
-    font-size: 1em;
+    font-size: 1.5em;
     font-weight: bolder;
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 35px;
@@ -189,15 +233,151 @@ width: 80%;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-button:hover {
+.login-container button:hover {
     transform: scale(1.1);
     transition-duration: 0.5s;
    
 }
 
-button:active {
+.login-container button:active {
     box-shadow: 0 5px #666;
     transform: translateY(2px);
+}
+
+/* Registration design */
+
+.login-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30vw;
+    height: 60vh;
+    border: 1px;
+    border-color: rgb(209, 209, 209);
+    border-style: solid;
+    border-radius: 2em;
+    margin-right: 1em;
+}
+
+.registration {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    width: 35vw;
+    height: 60vh;
+    border: 1px;
+    border-color: rgb(209, 209, 209);
+    border-style: solid;
+    border-radius: 2em;
+    margin-right: 1em;
+    overflow: scroll;
+    scrollbar-color: orangered rgb(179, 218, 255);
+    scrollbar-width: thin;
+    overflow-x: hidden;
+    overflow-y:auto;
+    
+    
+}
+
+.title {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+}
+
+.title button {
+    padding: .5em 1em;
+    font-size: 1.5vw;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 35px;
+    border-style: none;
+    background-color: rgb(0, 132, 255);
+    color: white;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.registration-form {
+    display: flex;
+    justify-content: center;
+    padding-left: 2vw;
+    width: 90%;
+    font-size: .6vw;
+    font-family: Arial, Helvetica, sans-serif;
+        
+}
+.div-lable {
+    display: flex;
+    flex-direction: column;
+    width:fit-content;
+    text-wrap: nowrap;
+    height: fit-content;
+    
+}
+.registration label {
+    display: flex;
+    flex-direction: column;
+    color: orangered;
+    font-size: 1.5vw;
+    margin-bottom: auto;
+    padding: 10px 0px;
+    /* font-weight: bold; */
+    margin-top: .3vw;
+    
+}
+
+.div-column div{
+    display: flex;
+    flex-direction: column;
+    color: orangered;
+    font-size: 1.5vw;
+    margin-bottom: auto;
+    padding: 10px 0px;
+    font-weight: bold;
+    margin-top: .3vw;
+
+}
+.div-input {
+    width: 100%;
+}
+
+.div-input input, .div-input select{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5vw;
+    margin-bottom: auto;
+    padding: 10px 0px;
+    margin-top: .3vw;
+    padding-left: 1vw;
+   
+}
+
+
+.registration .button {
+    
+    display: flex;
+    margin-top: 3vh;
+    justify-content: space-around;
+    margin-bottom: 2vw;
+
+    
+}
+
+.button button {
+    padding: .7em;
+    width: 10vw;
+    font-size: 1vw;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 35px;
+    border-style: none;
+    background-color: orangered;
+    color: white;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 /* start-exam design */
@@ -237,8 +417,7 @@ main .blue .button {
     width: 25vw;
 }
 
-main .blue .button button,
-.thankyou .button button {
+main .blue .button button {
     width: 8vw;
     padding: .6em;
     border-radius: 3em;
@@ -479,7 +658,7 @@ footer .address, .copyright {
         
     }
 
-    .login-logo, .login-container {
+    .login-logo, .login-container, .registration {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -491,7 +670,7 @@ footer .address, .copyright {
         border-style: solid;
         border-radius: 20px;
         margin-bottom: 2vh;
-        box-shadow: inset 0px 0px 20px 1px rgba(0,0,0,1);
+        /* box-shadow: inset 0px 0px 20px 1px rgba(0,0,0,1); */
     
     }
 
@@ -519,7 +698,7 @@ footer .address, .copyright {
     }
     
     label {
-        padding-top: 1em;
+        padding-top: .5em;
         padding-bottom: 0.5em;
         font-size: 1em;
         font-weight: bolder;
@@ -537,7 +716,7 @@ footer .address, .copyright {
     }
 
     .login-container button {
-        margin-top: 3vh;
+        margin-top: .5vh;
         margin-left: -2em;
         padding: .7em;
         width: 50%;
