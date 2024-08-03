@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import api from '../Dashboard/api';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from '../Header/Loader';
 const Login = () => {
     //
 
@@ -16,6 +17,7 @@ const Login = () => {
     const [type, setType] = useState('password');
     const [icon, setIcon] = useState(eye_c);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     // Show/Hide Password Toggle
     const handleToggle = () => {
         if (type === 'password') {
@@ -28,7 +30,7 @@ const Login = () => {
     }
     // Login Submit Event Handle
     const handleSubmit = async (e) => {
-
+        setLoading(true);
         // prevent the form from refreshing the whole page
         e.preventDefault();
         await api.post('/login', {
@@ -51,13 +53,15 @@ const Login = () => {
                 });
             }
             console.log(error);
-        })
+        });
+        setLoading(false);
     }
     const registration = async (e) => {
         navigate('/signup');
     }
     return (
         <div>
+            <Loader visible={loading} />
             <div className="blue">
                 <div className="login-title">Login to Start Examination</div>
             </div>
