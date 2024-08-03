@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import logo from '../../assets/logo.png';
-import login from '../../assets/login.png';
 import "../../css/Style.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -9,21 +8,23 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import eye from '../../assets/eye.png';
 import eye_c from '../../assets/eye_c.png';
+import Loader from '../Header/Loader';
 const Signup = () => {
     const [examTypes, setExamTypes] = useState([]);
     const [password, setPassword] = useState("");
     const [cpassword, setConfirmPassword] = useState("");
-    
+    const [loading, setLoading] = useState(false);
     const [type, setType] = useState('password');
     const [icon, setIcon] = useState(eye_c);
-    const [formData, setFormData] = useState({
+    const initialFormState = {
         first_name: '',
         last_name: '',
         middle_name: '',
         mobile_number: '',
         banch_time: '',
         exam_type: ''
-    });
+    };
+    const [formData, setFormData] = useState(initialFormState);
     // Show/Hide Password Toggle
     const handleToggle = () => {
         if (type === 'password') {
@@ -45,12 +46,13 @@ const Signup = () => {
     }
 
     useEffect(() => {
+        setLoading(true);
         const fetchExamType = async () => {
             try {
                 const response = await api.get('/activityType');
                 // Api Response set in examtype
                 setExamTypes(response.data.data);
-
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching exam types:', error);
             }
@@ -68,6 +70,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         formData.password = password;
         if (password !== cpassword) {
             alert('Passwords do not match!');
@@ -82,6 +85,7 @@ const Signup = () => {
                 });
                 navigate('/');
             }
+            
         }).catch((error) => {
             if (error.response.data.status === "Failed") {
                 toast.error(error.response.data.message, {
@@ -89,16 +93,25 @@ const Signup = () => {
                 });
             }
             console.log(error);
-        })
-        console.log('Form submitted:', formData);
+        });
+        setLoading(false);
         // You can add your form submission logic here, e.g., sending data to the backend.
     };
     const navigate = useNavigate();
     const registration = async (e) => {
         navigate('/');
     }
+
+    const handleReset = () => {
+        
+        setFormData(initialFormState);
+        setPassword('');
+        setConfirmPassword('');
+    };
     return (
+        
         <div>
+            <Loader visible={loading} />
             <div className="blue">
                 <div className="login-title">Registration for Examination</div>
             </div>
@@ -206,7 +219,7 @@ const Signup = () => {
                             </form>
                             <div className="button">
                                 <button type="button" onClick={(e) => handleSubmit(e)}>CREATE</button>
-                                <button>RESET</button>
+                                <button type="button" onClick={(e) => handleReset(e)}>RESET</button>
                             </div>
                         </div>
                         {/* <button type="submit">Submit</button> */}

@@ -5,7 +5,7 @@ import api from '../Dashboard/api';
 import { toast } from "react-toastify";
 import ConfirmDialog from './ConfirmDialog';
 import  NavBar  from "../Header/Navbar";
-
+import Loader from '../Header/Loader';
 
 const Exam = () => {
 
@@ -24,9 +24,11 @@ const Exam = () => {
   const [answers, setAnswers] = useState({});
   // Once final question submit display dialog box
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
+      setLoading(true);
       try {
         const response = await api.get('/get_questions/' + type_id);
         const initialAnswers = {};
@@ -45,6 +47,8 @@ const Exam = () => {
         setquestionData(response.data.data);
       } catch (error) {
         // Handle error or redirect to login
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -52,6 +56,7 @@ const Exam = () => {
   }, []);
   // Handle Next Question Logic 
   const handleNextQuestion = async (e) => {
+    setLoading(true);
     e.preventDefault();
     // get answer from localstorage
     const answer = localStorage.getItem(`selectedAnswer-${currentQuestion?.order_no}`);
@@ -59,6 +64,7 @@ const Exam = () => {
     if (currentQuestion.order_no === questionData[questionData.length - 1]?.order_no) {
       // Last Question display show dialog box
       setShowConfirmDialog(true);
+      setLoading(false);
     } else {
       // attempt logic
       let question_id = currentQuestion?.id;
@@ -80,7 +86,7 @@ const Exam = () => {
             });
           }
           setCurrentQuestionIndex(currentQuestionIndex + 1);
-
+          setLoading(false);
         }
       }).catch((error) => {
         if (error.response.data.status === "Failed") {
@@ -88,6 +94,7 @@ const Exam = () => {
             autoClose: 2000,
           });
         }
+        setLoading(false);
       });
     }
   };
@@ -128,6 +135,7 @@ const Exam = () => {
       <main>
         <NavBar/>
       </main>
+      <Loader visible={loading} />
       <div className="container">
         <div className="question-container">
           <form action="#">
