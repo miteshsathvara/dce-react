@@ -85,7 +85,7 @@ const Signup = () => {
                 });
                 navigate('/');
             }
-            
+
         }).catch((error) => {
             if (error.response.data.status === "Failed") {
                 toast.error(error.response.data.message, {
@@ -103,17 +103,20 @@ const Signup = () => {
     }
 
     const handleReset = () => {
-        
+
         setFormData(initialFormState);
         setPassword('');
         setConfirmPassword('');
     };
     return (
-        
+
         <div>
             <Loader visible={loading} />
             <div className="blue">
                 <div className="login-title">Registration for Examination</div>
+                <div className="button">
+                    <button onClick={(e) => registration(e)}>Login</button>
+                </div>
             </div>
             <main>
                 <div className="login-tile-container">

@@ -115,13 +115,14 @@ const Login = () => {
                                 <button onClick={(e) => handleSubmit(e)}>
                                     SUBMIT
                                 </button>
+                                <button style={{'background-color':'#0084ff'}} onClick={(e) => registration(e)}>
+                                Signup
+                        </button>
                                 
                             </div>
                         </form>
                         <div className="title">
-                        <button onClick={(e) => registration(e)}>
-                                Signup
-                        </button>
+                        
                         </div>                     
                     </div>
                 </div>
